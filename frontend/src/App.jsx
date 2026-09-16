@@ -6,7 +6,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { Worker } from "@react-pdf-viewer/core";
 
 import { GlobalProvider } from "./context/GlobalState";
 import { ModuleProvider } from "./context/ModuleState";
@@ -123,19 +122,17 @@ function App() {
   );
 
   return (
-    <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-      <GlobalProvider>
-        <ModuleProvider>
-          <ShortcutProvider>
-            <div className="app">
-              <ShortcutHelpModal />
-              <ToastContainer position="top-right" autoClose={3000} />
-              <RouterProvider router={router} />
-            </div>
-          </ShortcutProvider>
-        </ModuleProvider>
-      </GlobalProvider>
-    </Worker>
+    <GlobalProvider>
+      <ModuleProvider>
+        <ShortcutProvider>
+          <div className="app">
+            <ShortcutHelpModal />
+            <ToastContainer position="top-right" autoClose={3000} />
+            <RouterProvider router={router} />
+          </div>
+        </ShortcutProvider>
+      </ModuleProvider>
+    </GlobalProvider>
   );
 }
 
