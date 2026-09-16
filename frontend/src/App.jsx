@@ -21,7 +21,6 @@ import SelectModulePage from "./homepage/pages/SelectModulePage";
 
 import "./App.css";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import ShortcutHelpModal from "./components/ShortcutHelpModal";
 import ErrorPage from "./components/ErrorPage";
 import ProjectAuthGuard from "./components/ProjectAuthGuard";
