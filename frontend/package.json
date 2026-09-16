@@ -50,5 +50,8 @@
     "@firebase/util@1.13.0": true,
     "protobufjs@7.6.4": true,
     "esbuild@0.25.12": true
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
