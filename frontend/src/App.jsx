@@ -4,8 +4,8 @@ import {
   createRoutesFromElements,
   Route,
   Outlet,
-  RouterProvider,
-} from "react-router-dom";
+} from "react-router";
+import { RouterProvider } from "react-router/dom";
 
 
 import { GlobalProvider } from "./context/GlobalState";

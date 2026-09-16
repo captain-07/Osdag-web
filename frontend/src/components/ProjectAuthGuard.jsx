@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { Navigate, useParams, useLocation, Outlet } from 'react-router-dom';
+import { Navigate, useParams, useLocation, Outlet } from "react-router";
 import { useAuth } from '../context/AuthContext';
 
 const ModuleLoading = () => (

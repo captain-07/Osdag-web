@@ -5,7 +5,7 @@ import { useHover } from "../hooks/useHover";
 import { useDockPanels } from "../hooks/useDockPanels";
 import { useProjectLoader } from "../hooks/useProjectLoader";
 import { useEngineeringShortcuts } from "../hooks/useEngineeringShortcuts";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router";
 import { useEngineeringModule } from "../hooks/useEngineeringModule";
 import {
   MODULE_KEY_FIN_PLATE,

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import icon from '../assets/logo-osdag.png';
 import { Modal, Button, Alert, Spin } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router";
 import {
     signupWithFirebase,
     loginWithFirebase,
@@ -12,7 +12,7 @@ import {
 import { EmailVerificationStatus } from './EmailVerificationStatus';
 import { useAuth } from '../context/AuthContext';
 // import { useAuth } from '../hooks/useAuth';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router";
 
 const LoginPage = () => {
     const navigate = useNavigate();

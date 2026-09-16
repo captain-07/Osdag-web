@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { message } from 'antd';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from "react-router";
 import ProjectNameModal from '../../../homepage/components/ProjectNameModal';
 import { isGuestUser, canCreateProjects } from '../../../utils/auth';
 import { expandAllSelectedInputs } from '../utils/osiInputSerializer';

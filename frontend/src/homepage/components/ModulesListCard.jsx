@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router";
 import { getModuleRoute } from "../../constants/moduleRoutes";
 
 const ModulesListCard = ({ items }) => {

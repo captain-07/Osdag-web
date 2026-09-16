@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router";
 import { toast } from 'react-toastify';
 import { MODULE_ROUTES } from '../../constants/modules';
 import { getProjectById } from "../../datasources/projectsDataSource";

@@ -9,7 +9,7 @@ import beamcolumnIcon from '../../assets/homepage/beam_column.svg';
 import trussIcon from '../../assets/homepage/truss.svg';
 import frame2dIcon from '../../assets/homepage/2d_frame.svg';
 import frame3dIcon from '../../assets/homepage/3d_frame.svg';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from "react-router";
 import { APP_METADATA } from "../../constants/metadata";
 const Sidebar = ({ setshowSideBar, active }) => {
   const navigationItems = [

@@ -1,7 +1,7 @@
 import { useState, useContext, useCallback } from "react";
 import { message } from "antd";
 import { useDesignPrefSync } from "./useDesignPrefSync";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { ModuleContext } from "../../../context/ModuleState";
 import { useEngineeringService } from "./useEngineeringService";
 import { useModuleData } from "./useModuleData";

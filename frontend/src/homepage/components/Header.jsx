@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router";
 import { toast } from 'react-toastify';
 import { MODULE_ROUTES, MODULE_NAME_TO_KEY, CONNECTIONS_TAB_CONTENT, GENERIC_SUBMODULE_CONTENT, normalizeModuleKey } from '../../constants/modules';
 import { isGuestUser } from '../../utils/auth';

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import TabbedModulePage from '../components/ModulesCardLayout';
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router";
 import mosLogo from '../../assets/homepage/mos_logo.png';
 import constructSteelLogo from '../../assets/homepage/constructsteel_logo.png';
 import moeLogo from '../../assets/homepage/moe_logo.png';
