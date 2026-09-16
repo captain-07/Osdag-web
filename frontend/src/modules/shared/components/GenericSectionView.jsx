@@ -5,6 +5,7 @@ import { STEEL_CONSTANTS, UNIT_LABELS } from "../constants/engineering";
 import CustomMaterialModal from "./CustomMaterialModal";
 import SectionTabToolbar from "./SectionTabToolbar";
 import { notifyCustomSectionAdded } from "../hooks/useModuleData";
+import { addCustomSection } from "../../../datasources/sectionsDataSource";
 
 const { Option } = Select;
 
@@ -195,7 +196,6 @@ const GenericSectionView = ({
 
     const payload = { ...editableData, Designation: designationStr };
     try {
-      const { addCustomSection } = await import("../../../datasources/sectionsDataSource");
       await addCustomSection(sectionTableName, payload);
       notifyCustomSectionAdded({ table: sectionTableName, designation: designationStr });
       await onRefetchModuleOptions?.();

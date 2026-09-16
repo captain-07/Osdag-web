@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useRef, useMemo, useCallback, lazy, Suspense } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { message, Modal, Radio, Button } from "antd";
 import { BaseInputDock } from "./BaseInputDock";
@@ -35,8 +35,10 @@ import { deleteAllCustomSections } from "../../../datasources/sectionsDataSource
 import { openOsiFile } from "../../../datasources/osiDataSource";
 import { useViewCamera } from "./cad";
 import { usePlateGirderOptimization } from "../hooks/usePlateGirderOptimization";
-import OptimizationGraph from "./OptimizationGraph";
 import { isGuestUser } from "../../../utils/auth";
+
+// Plotly is large; load the graph only when an optimization runs
+const OptimizationGraph = lazy(() => import("./OptimizationGraph"));
 
 export const EngineeringModule = ({
   moduleConfig,
@@ -1587,11 +1589,13 @@ ${!isMobile ? (docks.output ? 'pr-0' : 'pr-[40px]') : ''}
           aria-modal="true"
         >
           <div className="w-full h-full sm:w-[92vw] sm:h-[88vh] max-w-[1400px] bg-white rounded-lg shadow-2xl overflow-hidden border border-gray-300">
-            <OptimizationGraph
-              data={optimizationPlotData}
-              optimizationDone={optimizationDone}
-              onClose={() => setShowOptimizationGraph(false)}
-            />
+            <Suspense fallback={<div className="flex h-full items-center justify-center text-gray-500">Loading graph...</div>}>
+              <OptimizationGraph
+                data={optimizationPlotData}
+                optimizationDone={optimizationDone}
+                onClose={() => setShowOptimizationGraph(false)}
+              />
+            </Suspense>
           </div>
         </div>
       )}

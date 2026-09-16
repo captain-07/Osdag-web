@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -17,56 +18,56 @@ import LoginPage from "./Auth/LoginPage";
 // Homepage components
 import Homepage from "./homepage/pages/Homepage";
 import SelectModulePage from "./homepage/pages/SelectModulePage";
-import MyDataPage from "./homepage/pages/MyDataPage";
-
-
-// Shear connection modules
-import FinPlate from "./modules/shearConnection/finPlate/FinPlate";
-import CleatAngle from "./modules/shearConnection/cleatAngle/CleatAngle";
-import EndPlate from "./modules/shearConnection/endPlate/EndPlate";
-import SeatedAngle from "./modules/shearConnection/seatAngle/SeatedAngle";
-
-// Simple connection modules
-import ButtJointWelded from "./modules/SimpleConnection/ButtJointWelded/ButtJointWelded";
-import ButtJointBolted from "./modules/SimpleConnection/ButtJointBolted/ButtJointBolted";
-import LapJointWelded from "./modules/SimpleConnection/LapJointWelded/LapJointWelded";
-import LapJointBolted from "./modules/SimpleConnection/LapJointBolted/LapJointBolted";
-
-// Tension members modules
-import BoltedToEnd from "./modules/TensionMembers/BoltedToEnd/BoltedToEnd";
-import WeldedToEnd from "./modules/TensionMembers/WeldedToEnd/WeldedToEnd";
-
-// Compression members modules
-import CompressionMember from "./modules/compressionMember/CompressionMember";
-import StrutsBolted from "./modules/compressionMember/StrutsBolted";
-import StrutsWelded from "./modules/compressionMember/StrutsWelded";
-import AxiallyLoadedColumn from "./modules/compressionMember/AxiallyLoadedColumn";
-
-// Beam modules
-import SimplySupportedBeam from "./modules/flexuralMember/simplySupportedBeam";
-import OnCantilever from "./modules/flexuralMember/onCantilever";
-import Purlin from "./modules/flexuralMember/purlin";
-import PlateGirder from "./modules/flexuralMember/plateGirder";
-import ColumnColumnEndPlate from "./modules/columnColumnEndPlate/ColumnColumnEndPlate";
-import BeamBeamEndPlate from "./modules/beamBeamEndPlate/BeamBeamEndPlate";
-
-// Cover plate modules
-import ColumnColumnCoverPlateBolted from "./modules/columnColumnCoverPlateBolted/CoverPlateBolted";
-import ColumnColumnCoverPlateWelded from "./modules/columnColumnCoverPlateWelded/CoverPlateWelded";
-import CoverPlateBolted from "./modules/coverPlateBolted/CoverPlateBolted";
-import CoverPlateWelded from "./modules/coverPlateWelded/CoverPlateWelded";
-import BasePlate from "./modules/basePlate/BasePlate";
 
 import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import BeamToColumnEndPlate from "./modules/beamToColumnEndPlate/BeamToColumnEndPlate";
 import ShortcutHelpModal from "./components/ShortcutHelpModal";
-
 import ErrorPage from "./components/ErrorPage";
 import ProjectAuthGuard from "./components/ProjectAuthGuard";
 import PrivacyTab from "./homepage/components/tabs/PrivacyTab";
 import CaveatsTab from "./homepage/components/tabs/CaveatsTab";
+
+// Route pages are lazy-loaded so the login/home bundle stays small
+const MyDataPage = lazy(() => import("./homepage/pages/MyDataPage"));
+
+// Shear connection modules
+const FinPlate = lazy(() => import("./modules/shearConnection/finPlate/FinPlate"));
+const CleatAngle = lazy(() => import("./modules/shearConnection/cleatAngle/CleatAngle"));
+const EndPlate = lazy(() => import("./modules/shearConnection/endPlate/EndPlate"));
+const SeatedAngle = lazy(() => import("./modules/shearConnection/seatAngle/SeatedAngle"));
+
+// Simple connection modules
+const ButtJointWelded = lazy(() => import("./modules/SimpleConnection/ButtJointWelded/ButtJointWelded"));
+const ButtJointBolted = lazy(() => import("./modules/SimpleConnection/ButtJointBolted/ButtJointBolted"));
+const LapJointWelded = lazy(() => import("./modules/SimpleConnection/LapJointWelded/LapJointWelded"));
+const LapJointBolted = lazy(() => import("./modules/SimpleConnection/LapJointBolted/LapJointBolted"));
+
+// Tension members modules
+const BoltedToEnd = lazy(() => import("./modules/TensionMembers/BoltedToEnd/BoltedToEnd"));
+const WeldedToEnd = lazy(() => import("./modules/TensionMembers/WeldedToEnd/WeldedToEnd"));
+
+// Compression members modules
+const CompressionMember = lazy(() => import("./modules/compressionMember/CompressionMember"));
+const StrutsBolted = lazy(() => import("./modules/compressionMember/StrutsBolted"));
+const StrutsWelded = lazy(() => import("./modules/compressionMember/StrutsWelded"));
+const AxiallyLoadedColumn = lazy(() => import("./modules/compressionMember/AxiallyLoadedColumn"));
+
+// Beam modules
+const SimplySupportedBeam = lazy(() => import("./modules/flexuralMember/simplySupportedBeam"));
+const OnCantilever = lazy(() => import("./modules/flexuralMember/onCantilever"));
+const Purlin = lazy(() => import("./modules/flexuralMember/purlin"));
+const PlateGirder = lazy(() => import("./modules/flexuralMember/plateGirder"));
+const ColumnColumnEndPlate = lazy(() => import("./modules/columnColumnEndPlate/ColumnColumnEndPlate"));
+const BeamBeamEndPlate = lazy(() => import("./modules/beamBeamEndPlate/BeamBeamEndPlate"));
+
+// Cover plate modules
+const ColumnColumnCoverPlateBolted = lazy(() => import("./modules/columnColumnCoverPlateBolted/CoverPlateBolted"));
+const ColumnColumnCoverPlateWelded = lazy(() => import("./modules/columnColumnCoverPlateWelded/CoverPlateWelded"));
+const CoverPlateBolted = lazy(() => import("./modules/coverPlateBolted/CoverPlateBolted"));
+const CoverPlateWelded = lazy(() => import("./modules/coverPlateWelded/CoverPlateWelded"));
+const BasePlate = lazy(() => import("./modules/basePlate/BasePlate"));
+const BeamToColumnEndPlate = lazy(() => import("./modules/beamToColumnEndPlate/BeamToColumnEndPlate"));
 
 function App() {
   let loggedIn = false;
