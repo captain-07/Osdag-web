@@ -2,17 +2,12 @@ import { useState, useEffect } from 'react';
 import icon from '../assets/logo-osdag.png';
 import { Modal, Button, Alert, Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
-import { auth } from './firebase';
-import { apiClient } from '../utils/apiClient';
-import { AUTH } from '../datasources/endpoints';
 import {
     signupWithFirebase,
     loginWithFirebase,
     loginWithGoogle,
     resetPassword,
     getFirebaseErrorMessage,
-    syncUserToBackend,
 } from '../utils/firebaseAuth';
 import { EmailVerificationStatus } from './EmailVerificationStatus';
 import { useAuth } from '../context/AuthContext';

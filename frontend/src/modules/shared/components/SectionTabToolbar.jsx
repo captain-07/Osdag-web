@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useCallback, useState } from "react";
 import { Button, message } from "antd";
 import { isGuestUser } from "../../../utils/auth";

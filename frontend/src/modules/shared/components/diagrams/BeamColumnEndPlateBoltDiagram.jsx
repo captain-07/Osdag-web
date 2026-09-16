@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 
 const dimColor = '#6b7280';
 const lineColor = '#f97316';

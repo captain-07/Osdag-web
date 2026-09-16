@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useThree } from "@react-three/fiber";
 import { useEffect } from "react";
 import * as THREE from "three";
@@ -65,7 +64,6 @@ async function saveImageWithDialog(canvas) {
 export const ScreenshotCapture = ({
   screenshotTrigger,
   setScreenshotTrigger,
-  selectedView,
 }) => {
   const { gl, invalidate } = useThree();
 

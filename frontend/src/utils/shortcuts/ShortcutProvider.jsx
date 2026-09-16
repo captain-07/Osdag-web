@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components, react/prop-types */
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useMemo, useRef } from "react";
 
 const ShortcutContext = createContext(null);

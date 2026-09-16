@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useRef } from "react";
 import { message } from "antd";
 import { InputSection } from "./InputSection";

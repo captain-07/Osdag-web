@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 
 const BlueBolt = ({ cx, cy }) => (
   <ellipse cx={cx} cy={cy} rx={8} ry={8} stroke="#1E2DFF" strokeWidth="2.5" fill="white" />

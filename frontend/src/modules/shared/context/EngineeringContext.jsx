@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components, react/prop-types */
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useRef, useState, useEffect, useMemo, useCallback } from "react";
 import { useViewport } from "../hooks/useViewport";
 import { useHover } from "../hooks/useHover";

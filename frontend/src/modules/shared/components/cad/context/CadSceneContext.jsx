@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components, react/prop-types */
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useMemo } from "react";
 
 const DEFAULT_ORBIT_TARGET = [0, 0, 0];

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 
 /**
  * SeatedAngleCapacitySketch replicates desktop's SeatedAngleCapacityDetails

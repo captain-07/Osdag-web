@@ -117,7 +117,7 @@ const IBeamSVG = ({ depth = 400, bfTop = 300, bfBot = 300, tw = 8, tfTop = 12, t
     );
 };
 
-function OptimizationGraph({ data, onClose, optimizationDone, isWsConnected }) {
+function OptimizationGraph({ data, onClose, optimizationDone }) {
     const graphRef = useRef(null);
 
     const toPositiveNumber = (value, fallback = 0) => {

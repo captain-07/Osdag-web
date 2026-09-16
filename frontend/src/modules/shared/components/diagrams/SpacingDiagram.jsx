@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useMemo } from "react";
 
 /**
@@ -134,8 +133,7 @@ const renderDetailedDimensions = (
   boltRowsPositions,
   offsetX,
   offsetY,
-  scale,
-  origin
+  scale
 ) => {
   const dimColor = "#000";
   const hOffset = 35;

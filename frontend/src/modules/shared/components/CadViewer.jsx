@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useRef, Suspense, useState, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Html, PerspectiveCamera } from "@react-three/drei";

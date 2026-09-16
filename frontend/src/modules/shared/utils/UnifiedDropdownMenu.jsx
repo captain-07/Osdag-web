@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useRef, useState, useEffect } from "react";
 import { useEngineeringService } from "../hooks/useEngineeringService";
 import { MODULE_KEY_FIN_PLATE } from '../../../constants/DesignKeys';
@@ -10,10 +9,6 @@ import { downloadSectionCatalog } from "../../../datasources/sectionsDataSource"
 import { getModuleConfig } from "./moduleConfig";
 import { expandAllSelectedInputs } from "./osiInputSerializer";
 import { buildLogFileContent } from "./logExport";
-import {
-  downloadCachedModelByFormat,
-  downloadExportCadResponse,
-} from "./cadExport";
 import { canOpenAdditionalInputs } from "./designPrefOpenGuard";
 import { isGuestUser } from "../../../utils/auth";
 
@@ -37,7 +32,6 @@ function UnifiedDropdownMenu({
   thicknessList = [],
   angleList = [],
   topAngleList = [],
-  cadModelPaths = null,
   contextData = null,
   selectionStates = {},
   onMenuClick,
@@ -45,7 +39,6 @@ function UnifiedDropdownMenu({
   isExistingProject = false,
   hasOutput = false,
   moduleConfig = null,
-  extraState = {},
   setCreateDesignReportBool = null,
 }) {
   const service = useEngineeringService();

@@ -1,4 +1,3 @@
-﻿import React from "react";
 import { Modal, Transfer } from "antd";
 
 export const ThicknessSelectionModal = ({

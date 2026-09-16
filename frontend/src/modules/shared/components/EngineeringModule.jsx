@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { message, Modal, Radio, Button } from "antd";
@@ -13,7 +12,6 @@ import DesignPrefSections from "./DesignPrefSections";
 import { DesignStatusModal } from "./DesignStatusModal";
 import HelpLinkModal from "./help/HelpLinkModal";
 import AboutOsdagModal from "./help/AboutOsdagModal";
-import XlsxImportTrigger from "./XlsxImportTrigger";
 import { DESIGN_STATUS } from "../hooks/useDesignSubmission";
 import { UI_STRINGS } from "../../../constants/UIStrings";
 import { DESIGN_EXAMPLES_URL, ASK_QUESTION_LINK } from "./help/helpContent";
@@ -31,18 +29,13 @@ import { expandAllSelectedInputs } from "../utils/osiInputSerializer";
 import { loadStateFromOsi } from "../utils/osiLoader";
 import { getModuleConfig as getDesignPrefModuleConfig } from "../utils/moduleConfig";
 import { canOpenAdditionalInputs } from "../utils/designPrefOpenGuard";
-import { downloadCachedModelByFormat, downloadExportCadResponse } from "../utils/cadExport";
+import { downloadCachedModelByFormat, downloadExportCadResponse, downloadCadSectionsAsStl } from "../utils/cadExport";
 import { MODULE_KEY_SEAT_ANGLE, MODULE_KEY_FIN_PLATE, MODULE_KEY_CLEAT_ANGLE, MODULE_KEY_END_PLATE, MODULE_KEY_BEAM_COLUMN_END_PLATE } from "../../../constants/DesignKeys";
 import { deleteAllCustomSections } from "../../../datasources/sectionsDataSource";
 import { openOsiFile } from "../../../datasources/osiDataSource";
 import { useViewCamera } from "./cad";
 import { usePlateGirderOptimization } from "../hooks/usePlateGirderOptimization";
 import OptimizationGraph from "./OptimizationGraph";
-import { EngineeringProvider } from "../context/EngineeringContext";
-import { EngineeringHeader } from "./EngineeringHeader";
-import { EngineeringLayout } from "./EngineeringLayout";
-import { EngineeringModals } from "./EngineeringModals";
-import { MobileBottomNav } from "./MobileBottomNav";
 import { isGuestUser } from "../../../utils/auth";
 
 export const EngineeringModule = ({
@@ -52,22 +45,17 @@ export const EngineeringModule = ({
 }) => {
   const isGuest = isGuestUser();
   const navigate = useNavigate();
-  const cameraRef = useRef();
   const lockBtnRef = useRef(null);
   const designCompletedRef = useRef(false); // Track if we've already handled design completion
   const prevModuleRef = useRef(null); // Track previous module for change detection
   const prevProjectIdRef = useRef(null); // Track previous projectId for change detection
-  const lastLoadedProjectIdRef = useRef(null); // Prevent re-fetching same project (stops infinite GET loop)
   const [showAskQuestionModal, setShowAskQuestionModal] = useState(false);
-  const { isMobile, isLandscape } = useViewport();
+  const { isMobile } = useViewport();
   const {
     docks,
     toggleInputDock,
     toggleOutputDock,
     toggleLogs,
-    toggleCad,
-    setDesignComplete: setDocksDesignComplete,
-    setEarlyOutput: setDocksEarlyOutput,
     resetDocks,
     setDocks
   } = useDockPanels(isMobile);
@@ -81,11 +69,8 @@ export const EngineeringModule = ({
   const { moduleData, form, uiContext, designStatus, actions } = coreState;
 
   const {
-    beamList, columnList, connectivityList, materialList, boltDiameterList, thicknessList,
-    propertyClassList, angleList, boltTypeList, sectionProfileList, channelList, sectionDesignation,
-    coverPlateList, weldSizeList, profileList = [],
-    anchorDiameterList = [], anchorGradeList = [], footingGradeList = [], weldTypeList = [],
-    anchorTypeList = [], loadingOptions, contextData
+    materialList, boltDiameterList, thicknessList,
+    propertyClassList, angleList, loadingOptions, contextData
   } = moduleData;
 
   const {
@@ -109,7 +94,7 @@ export const EngineeringModule = ({
   const {
     handleSubmit, performReset, saveOutput, clearDesignResults, loadSavedOutputs, service,
     resetModuleState, refetchModuleOptions, handleCreateDesignReport, handleCancelDesignReport,
-    handleQuitClick, loadOutputs, loadCadModel
+    loadOutputs, loadCadModel
   } = actions;
 
   const { handleCreateProject, projectCreationModal } = useProjectCreation({
@@ -122,7 +107,6 @@ export const EngineeringModule = ({
     hasOutput: !!output,
   });
 
-  const [showResetButton, setShowResetButton] = useState(false);
   const [isDesignComplete, setIsDesignComplete] = useState(false);
   const [isInputLocked, setIsInputLocked] = useState(false);
   const [showUnlockWarning, setShowUnlockWarning] = useState(false);
@@ -135,7 +119,7 @@ export const EngineeringModule = ({
 
   // Hooking Graphics Options (Model / Selected Section & Bg Color)
   const colorPickerRef = useRef(null);
-  const [customBgColor, setCustomBgColor] = useState(null);
+  const [customBgColor] = useState(null);
 
   useEffect(() => {
     if (inputs?.graphicsOption) {
@@ -175,7 +159,7 @@ export const EngineeringModule = ({
         return next;
       });
     }
-  }, [inputs?.graphicsOption, selectedSection]);
+  }, [inputs?.graphicsOption, selectedSection, setInputs]);
 
   const prevPathsRef = useRef(null);
   const normalizedCadModelPaths = useMemo(() => {
@@ -193,12 +177,6 @@ export const EngineeringModule = ({
     return out;
   }, [cadModelPaths]);
 
-  // Debug: log CAD paths when they change
-  useEffect(() => {
-    if (normalizedCadModelPaths) {
-      const keys = Object.keys(normalizedCadModelPaths || {});
-    }
-  }, [normalizedCadModelPaths, selectedSection]);
 
 
 
@@ -216,7 +194,7 @@ export const EngineeringModule = ({
   const params = useParams();
 
   // Project ID from path (e.g. /design/connections/shear/fin_plate/1) or query (?projectId=1)
-  const getProjectIdFromUrl = () => {
+  const getProjectIdFromUrl = useCallback(() => {
     const fromPath = params.projectId;
     if (fromPath != null && fromPath !== '') {
       const n = parseInt(fromPath, 10);
@@ -225,7 +203,7 @@ export const EngineeringModule = ({
     const searchParams = new URLSearchParams(location.search);
     const fromQuery = searchParams.get('projectId');
     return fromQuery ? parseInt(fromQuery, 10) : null;
-  };
+  }, [params.projectId, location.search]);
 
   // ===================================================================
   // MODULE CHANGE DETECTION - Clear state when switching modules
@@ -281,7 +259,7 @@ export const EngineeringModule = ({
     // Update refs
     prevModuleRef.current = currentModule;
     prevProjectIdRef.current = currentProjectId;
-  }, [moduleConfig.designType, location.search, location.pathname, resetModuleState, clearDesignResults, isMobile]);
+  }, [moduleConfig.designType, location.search, location.pathname, resetModuleState, clearDesignResults, isMobile, getProjectIdFromUrl, setDocks]);
 
   // ===================================================================
   // CLEANUP ON UNMOUNT - Clear state when component unmounts
@@ -370,6 +348,9 @@ export const EngineeringModule = ({
         setIsInputLocked(false);
       }
     }
+    // Runs only on design-status transitions; adding the per-render handleCreateDesignReport
+    // would re-run it every render and its cleanup would cancel the auto-report timer.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status.step, isRedesigning, isMobile]);
 
   // Show output dock immediately after calculation completes (before CAD)
@@ -382,7 +363,7 @@ export const EngineeringModule = ({
         setDocks({ logs: true });
       }
     }
-  }, [status.step, output, isRedesigning, isMobile]);
+  }, [status.step, output, isRedesigning, isMobile, setDocks]);
 
 
   // PSO optimization (plate girder Optimized design type). Idle for other modules.
@@ -460,18 +441,14 @@ export const EngineeringModule = ({
     // Call the actual submit function
     try {
       await handleSubmit();
-      setShowResetButton(true);
     } catch (error) {
+      console.error("Design submission failed:", error);
     } finally {
       // Reset the redesigning state after completion
       setIsRedesigning(false);
     }
-  }, [isDesignComplete, renderBoolean, output, isMobile, clearDesignResults, resetModuleState, handleSubmit, resetDocks, moduleConfig, inputs, allSelected, contextData, extraState, startPsoOptimization]);
+  }, [isDesignComplete, renderBoolean, output, isMobile, clearDesignResults, resetModuleState, handleSubmit, moduleConfig, inputs, allSelected, contextData, extraState, startPsoOptimization, setDocks]);
 
-  // Toggle reset button visibility
-  const toggleResetButton = () => {
-    setShowResetButton(!showResetButton);
-  };
 
   // Toggle functions for SVG clicks
 
@@ -496,7 +473,6 @@ export const EngineeringModule = ({
     setDocks({ logs: false });
     setSelectedSection(["Model"]);
     setSelectedCameraView("Model");
-    setShowResetButton(false);
     setHoverText("");
     setHoverPos({ x: 0, y: 0 });
     setIsInputLocked(false);
@@ -524,7 +500,7 @@ export const EngineeringModule = ({
   const handleResetEnhanced = useCallback(async () => {
     setShowResetConfirmation(true);
     setConfirmationType("reset");
-  }, []);
+  }, [setShowResetConfirmation, setConfirmationType]);
 
   const performResetEnhanced = async () => {
     // Guests never store custom sections in backend.
@@ -545,7 +521,6 @@ export const EngineeringModule = ({
     }
 
     performReset();
-    setShowResetButton(false);
     setShowResetConfirmation(false);
     setDocks({ output: false });
     setDocks({ input: true });
@@ -639,8 +614,6 @@ export const EngineeringModule = ({
 
   const {
     position: cameraPos,
-    modelPosition,
-    modelScale,
   } = cameraSettings;
 
   // Determine view options based on module config
@@ -1004,7 +977,7 @@ export const EngineeringModule = ({
 
             {displaySaveInputPopup && (
               <span id="save-input-style" className="hidden md:block" style={{ marginTop: "18px" }}>
-                <strong>Saved input file as "{saveInputFileName}"</strong>
+                <strong>Saved input file as &quot;{saveInputFileName}&quot;</strong>
               </span>
             )}
           </div>

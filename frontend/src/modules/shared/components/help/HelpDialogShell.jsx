@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Modal, Button } from "antd";
 
 export const HelpDialogShell = ({

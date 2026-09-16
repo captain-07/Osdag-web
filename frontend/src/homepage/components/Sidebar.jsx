@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 
 import iitbLogo from '../../assets/homepage/iitb_logo.png';
 import homeIcon from '../../assets/homepage/home_default.svg';

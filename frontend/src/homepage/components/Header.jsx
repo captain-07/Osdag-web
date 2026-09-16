@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -6,7 +5,7 @@ import { MODULE_ROUTES, MODULE_NAME_TO_KEY, CONNECTIONS_TAB_CONTENT, GENERIC_SUB
 import { isGuestUser } from '../../utils/auth';
 import { useAuth } from '../../context/AuthContext';
 import { searchProjects, getProjectById, deleteProject } from '../../datasources/projectsDataSource';
-import { downloadSectionCatalog, downloadSectionTemplate, importSectionXlsx } from '../../datasources/sectionsDataSource';
+import { downloadSectionCatalog, importSectionXlsx } from '../../datasources/sectionsDataSource';
 import { apiClient } from '../../utils/apiClient';
 import { AUTH } from '../../datasources/endpoints';
 import ProjectActionButtons from './ProjectActionButtons';
@@ -201,26 +200,6 @@ const Header = ({ setshowSideBar, active }) => {
   // Handle login navigation
   const handleLogin = () => {
     navigate('/');
-  };
-
-  // Handle GDPR data export
-  const handleExportData = async () => {
-    try {
-      const response = await apiClient(AUTH.exportData, { method: "GET" });
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      const userEmailStr = firebaseUser?.email || 'user';
-      a.download = `osdag_user_data_${userEmailStr.split('@')[0]}.json`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    } catch (err) {
-      console.error("Failed to export data:", err);
-      alert("Failed to export user data. Please try again.");
-    }
   };
 
   // Handle GDPR account soft-deletion

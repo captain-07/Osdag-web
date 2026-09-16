@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components, react/prop-types */
+/* eslint-disable react-refresh/only-export-components */
 import { Fragment } from "react";
 import SpacingDiagram from "../diagrams/SpacingDiagram";
 import BasePlateSketch from "../diagrams/BasePlateSketch";

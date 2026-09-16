@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { Modal, Row, Col, Input, Button, Upload, message } from 'antd';
 import { ReportCustomizationModal } from './ReportCustomizationModal';

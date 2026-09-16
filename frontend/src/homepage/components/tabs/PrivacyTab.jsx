@@ -36,7 +36,7 @@ export default function PrivacyTab() {
       </p>
 
       <p className="mt-6 text-sm text-gray-500 italic">
-        The Osdag developers' community does not condone unauthorized usage of private data and remains dedicated to user data safety and sovereignty.
+        The Osdag developers&apos; community does not condone unauthorized usage of private data and remains dedicated to user data safety and sovereignty.
       </p>
     </div>
   );

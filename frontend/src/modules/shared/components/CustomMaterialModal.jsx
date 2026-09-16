@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect, useContext } from "react";
 import { Modal, Input, Button } from "antd";
 import { ModuleContext } from "../../../context/ModuleState";

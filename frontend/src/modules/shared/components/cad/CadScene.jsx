@@ -1,4 +1,4 @@
-/* eslint-disable react/no-unknown-property, react/prop-types */
+/* eslint-disable react/no-unknown-property */
 import { OrbitControls } from "@react-three/drei";
 import { useMemo, useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 
 /**
  * PlateFractureDiagram replicates desktop's 4 cover-plate fracture-pattern
@@ -27,7 +26,6 @@ const PlateFractureDiagram = ({
   orientation = "landscape",
   variant = "web",
   pattern = 1,
-  className = "",
 }) => {
   const numRows = toInt(rows, 2);
   const numCols = toInt(cols, 2);

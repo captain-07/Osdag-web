@@ -1,11 +1,5 @@
 
 import ISECTION from "../../../../assets/ISection.png";
-import ErrorImg from "../../../../assets/notSelected.png";
-import {
-  KEY_MODULE, KEY_MATERIAL, KEY_LENGTH, KEY_SHEAR, KEY_MOMENT,
-  KEY_TORSIONAL_RES, KEY_WARPING_RES, KEY_ALLOW_CLASS, KEY_EFFECTIVE_AREA_PARA,
-  KEY_LENGTH_OVERWRITE, KEY_DP_DESIGN_METHOD
-} from "../../../../constants/DesignKeys";
 
 import { validateRequiredFields } from '../../../shared/utils/validation';
 // Plate Girder uses backend key strings directly (matching backend Common.py)
@@ -239,7 +233,7 @@ export const plateGirderConfig = {
   ],
 
   // Helper function to get section image
-  getSectionImage: (profile) => {
+  getSectionImage: () => {
     // Plate girder is always a welded I-section
     return ISECTION;
   },
@@ -290,7 +284,7 @@ export const plateGirderConfig = {
     return { isValid: true };
   },
 
-  buildSubmissionParams: (inputs, allSelected, lists, extraState) => {
+  buildSubmissionParams: (inputs, allSelected, lists) => {
     const getArrayParam = (allSelectedFlag, fullList, selectedList) => {
       if (allSelectedFlag) {
         return fullList.filter(item => item !== "All" && item !== "Select Section");

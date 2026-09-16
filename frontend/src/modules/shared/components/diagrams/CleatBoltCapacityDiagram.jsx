@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 
 /**
  * CleatBoltCapacityDiagram replicates desktop's CleatAngleCapacityDetails
@@ -68,7 +67,6 @@ const PlatePair = ({ leftStripRight = true }) => (
 const CleatBoltCapacityDiagram = ({
   leg = "supported",
   plateHeight,
-  boltRows,
   boltCols,
   end,
   pitch,
@@ -76,7 +74,6 @@ const CleatBoltCapacityDiagram = ({
   gauge1,
   angleDesignation = "",
   mode = "shear", // "shear" | "tension"
-  className = "",
 }) => {
   const height = toNum(plateHeight);
   const rEnd = toNum(end);

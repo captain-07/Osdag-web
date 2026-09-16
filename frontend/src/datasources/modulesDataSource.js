@@ -118,7 +118,9 @@ export async function exportCad(module_id, input_values, format, section = "Mode
     try {
       const errorJson = await res.json();
       errorMsg = errorJson.message || errorJson.error || errorMsg;
-    } catch (_e) { }
+    } catch (_e) {
+      // Response body isn't JSON; keep the default message
+    }
     return { success: false, error: errorMsg };
   }
 

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useRef, useState, useContext, useEffect, useCallback } from "react";
 import { ModuleContext } from "../../../context/ModuleState";
 import GenericSectionView from "./GenericSectionView";

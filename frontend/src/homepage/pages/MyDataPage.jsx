@@ -421,6 +421,8 @@ const MyDataPage = () => {
     });
   };
 
+  // Used by the Edit button, which is temporarily disabled below
+  // eslint-disable-next-line no-unused-vars
   const handleOpenEditMaterial = (mat) => {
     setEditModal({
       isOpen: true,
@@ -438,6 +440,8 @@ const MyDataPage = () => {
     });
   };
 
+  // Used by the Edit button, which is temporarily disabled below
+  // eslint-disable-next-line no-unused-vars
   const handleOpenEditSection = (sec) => {
     setEditModal({
       isOpen: true,
@@ -537,7 +541,7 @@ const MyDataPage = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-        const data = await response.json();
+        await response.json();
         toast.success("Custom Section updated successfully");
         setSections((prev) =>
           prev.map((s) => (s.id === itemData.id && s.table === itemData.table ? { ...s, ...payload } : s))
@@ -1006,7 +1010,7 @@ const MyDataPage = () => {
             </h3>
             
             <p className="text-sm text-center text-gray-500 dark:text-gray-400 mb-6 px-2">
-              Are you sure you want to permanently delete <strong className="text-gray-900 dark:text-white font-semibold">"{deleteModal.itemLabel}"</strong>? This action cannot be undone and the item will be deleted permanently.
+              Are you sure you want to permanently delete <strong className="text-gray-900 dark:text-white font-semibold">&quot;{deleteModal.itemLabel}&quot;</strong>? This action cannot be undone and the item will be deleted permanently.
             </p>
 
             <div className="flex items-center gap-3">

@@ -1,4 +1,3 @@
-﻿import React from 'react';
 import { EngineeringModule } from '../../shared/components/EngineeringModule';
 import { plateGirderConfig } from './configs/plateGirderConfig';
 import { plateGirderOutputConfig } from './configs/plateGirderOutputConfig';

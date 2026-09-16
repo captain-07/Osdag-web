@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import { Button, Alert, Space, Spin } from 'antd';
 import { CheckCircleOutlined, CloseCircleOutlined, MailOutlined } from '@ant-design/icons';

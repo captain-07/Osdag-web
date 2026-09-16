@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { message } from "antd";

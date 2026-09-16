@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useContext, useState, useEffect } from "react";
 import { ModuleContext } from "../../../context/ModuleState";
 import { Input, Select } from "antd";

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import { Modal, Button, Tree, Spin, message } from 'antd';
 
@@ -7,7 +6,6 @@ const { TreeNode } = Tree;
 export const ReportCustomizationModal = ({
   isOpen,
   onCancel,
-  onOpenPDF,
   onSavePDF,
   sections = {},
   selectedSections = [],
@@ -17,7 +15,6 @@ export const ReportCustomizationModal = ({
   const [expandedKeys, setExpandedKeys] = useState([]);
   const [checkedKeys, setCheckedKeys] = useState([]);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
-  const [openingPDF, setOpeningPDF] = useState(false);
   const [savingPDF, setSavingPDF] = useState(false);
 
   // Initialize checked keys when sections change
@@ -86,22 +83,6 @@ export const ReportCustomizationModal = ({
   const handleSelectNone = () => {
     setCheckedKeys([]);
     onSectionsChange && onSectionsChange([]);
-  };
-
-  const handleOpenPDF = async () => {
-    if (selectedSections.length === 0) {
-      message.error("Please select at least one section to include.");
-      return;
-    }
-
-    setOpeningPDF(true);
-    try {
-      await onOpenPDF(selectedSections);
-    } catch (error) {
-      message.error("Failed to open PDF. Please try again.");
-    } finally {
-      setOpeningPDF(false);
-    }
   };
 
   const handleSavePDF = async () => {   

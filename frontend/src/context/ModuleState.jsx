@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { createContext, useReducer, useCallback } from "react";
 import ModuleReducer from "./ModuleReducer";
 import { createDesign as apiCreateDesign } from '../modules/shared/api/moduleApi';
