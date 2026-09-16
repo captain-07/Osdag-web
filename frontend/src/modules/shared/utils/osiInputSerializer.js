@@ -99,7 +99,7 @@ export const buildOsiContent = ({
         content += `Member.Supporting_Section.Designation: ${memberData?.memberSupporting || ''}\n`;
         content += `Member.Supporting_Section.Material: ${inputs?.supporting_material || ''}\n`;
       }
-    } catch (_) {
+    } catch {
       // swallow, keep content best-effort
     }
   } else if (moduleName === 'Beam-to-Beam End Plate Connection') {

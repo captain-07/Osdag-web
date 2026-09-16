@@ -206,7 +206,7 @@ const LoginPage = () => {
 
         try {
             navigate('/home');
-        } catch (error) {
+        } catch {
             setGeneralError("Error entering guest mode. Please try again.");
         } finally {
             setIsLoading(false);

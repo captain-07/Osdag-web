@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 import { useMemo, useState, useCallback } from 'react';
 import * as THREE from 'three';
 import { useCursor } from '@react-three/drei';
@@ -38,7 +37,7 @@ export const SmartPart = ({
       const edgeGeo = new THREE.EdgesGeometry(geometry, 15);
       const edgeMat = new THREE.LineBasicMaterial({ color: "black", linewidth: 1 });
       return { geometry: edgeGeo, material: edgeMat };
-    } catch (e) {
+    } catch {
       console.warn("Failed to generate edges for", name);
       return null;
     }

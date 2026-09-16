@@ -60,12 +60,12 @@ const CustomMaterialModal = ({
 
       const prevData = JSON.parse(localStorage.getItem("osdag-custom-materials"));
 
-      let presentItemsInCaches = null;
-      if (prevData)
-        presentItemsInCaches = prevData.filter((item) => item.Grade === grade);
-      presentItemsInCaches = materialList.filter((item) => item.Grade === grade);
+      const presentItemsInCaches = [
+        ...(prevData || []).filter((item) => item.Grade === grade),
+        ...materialList.filter((item) => item.Grade === grade),
+      ];
 
-      if (presentItemsInCaches && presentItemsInCaches.length > 0) {
+      if (presentItemsInCaches.length > 0) {
         alert("The material is already present");
         setShowModal(false);
         setGrade("Cus____");
@@ -78,9 +78,7 @@ const CustomMaterialModal = ({
         return;
       }
 
-      let newData = [];
-      if (prevData) newData = [...prevData, customSectionData];
-      else newData = [customSectionData];
+      const newData = prevData ? [...prevData, customSectionData] : [customSectionData];
 
       localStorage.setItem(key, JSON.stringify(newData));
       alert("Data added successfully");

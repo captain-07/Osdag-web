@@ -32,7 +32,7 @@ const MainContent = () => {
       if (data.success && Array.isArray(data.projects)) {
         setProjects(data.projects);
       }
-    } catch (e) {
+    } catch {
       // swallow; UI will just show empty state
     } finally {
       setLoading(false);
@@ -44,7 +44,7 @@ const MainContent = () => {
     try {
       await deleteProjectApi(projectId);
       fetchRecentProjects();
-    } catch (e) {
+    } catch {
       // ignore; ProjectsListCard will show its own error if needed
     }
   };

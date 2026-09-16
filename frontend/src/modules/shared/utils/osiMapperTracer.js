@@ -64,7 +64,7 @@ export function getModuleKeyMap(moduleConfig) {
           keyMap[osiKey] = reactKey;
         }
       });
-    } catch (e) {
+    } catch {
       // Gracefully continue to next pass
     }
   });

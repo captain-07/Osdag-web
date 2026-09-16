@@ -169,7 +169,7 @@ export const useDesignSubmission = (service, moduleConfig) => {
     }
 
     // Parameter building step
-    let param = null;
+    let param;
     try {
       param = moduleConfig.buildSubmissionParams(
         inputs,

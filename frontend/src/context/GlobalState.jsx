@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useReducer, useRef } from 'react';
 import AppReducer from './AppReducer';
 

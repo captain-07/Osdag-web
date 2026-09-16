@@ -149,7 +149,8 @@ export const useModuleForm = (moduleConfig, moduleData) => {
 
   useEffect(() => {
     if (displaySaveInputPopup) {
-      setTimeout(() => setDisplaySaveInputPopup(false), 4000);
+      const timer = setTimeout(() => setDisplaySaveInputPopup(false), 4000);
+      return () => clearTimeout(timer);
     }
   }, [displaySaveInputPopup]);
 

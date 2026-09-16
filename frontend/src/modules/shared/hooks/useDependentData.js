@@ -92,7 +92,7 @@ export const useDependentData = (getDesignPreferences, moduleConfig, inputs, ext
             if (params) {
               await getDesignPreferences(params);
             }
-          } catch (error) {
+          } catch {
             // Swallow error; caller can log if needed
           }
         }

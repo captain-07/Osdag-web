@@ -94,7 +94,7 @@ export const ReportCustomizationModal = ({
     setSavingPDF(true);
     try {
       await onSavePDF(selectedSections);
-    } catch (error) {
+    } catch {
       message.error("Failed to save PDF. Please try again.");
     } finally {
       setSavingPDF(false);

@@ -514,7 +514,7 @@ export const EngineeringModule = ({
         // Ensure dropdown options no longer include deleted user sections.
         try {
           await refetchModuleOptions?.();
-        } catch (_e) {
+        } catch {
           // ignore refetch errors; local reset still proceeds
         }
       } catch (e) {
@@ -682,7 +682,7 @@ export const EngineeringModule = ({
         } else {
           message.error(data.error || "Failed to open OSI file");
         }
-      } catch (err) {
+      } catch {
         message.error("Failed to open OSI file");
       } finally {
         if (document.body.contains(element)) {

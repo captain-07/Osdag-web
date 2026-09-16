@@ -36,7 +36,7 @@ export const useOsiFileHandlers = ({ form, moduleData, actions }, moduleConfig) 
             contextData,
             extraState
           ) || {};
-        } catch (e) {
+        } catch {
           flatInputs = { ...inputsForSave };
         }
       } else {
@@ -63,13 +63,13 @@ export const useOsiFileHandlers = ({ form, moduleData, actions }, moduleConfig) 
           document.body.removeChild(link);
           URL.revokeObjectURL(url);
           message.success('OSI file downloaded successfully');
-        } catch (err) {
+        } catch {
           message.error('Failed to download OSI file');
         }
         return;
       }
       message.error(result.error || 'Failed to download OSI');
-    } catch (err) {
+    } catch {
       message.error('Failed to download OSI');
     }
   };
@@ -107,7 +107,7 @@ export const useOsiFileHandlers = ({ form, moduleData, actions }, moduleConfig) 
         } else {
           message.error(data.error || "Failed to open OSI file");
         }
-      } catch (err) {
+      } catch {
         message.error("Failed to open OSI file");
       } finally {
         if (document.body.contains(element)) {

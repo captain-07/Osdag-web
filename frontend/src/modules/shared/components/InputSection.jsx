@@ -470,7 +470,7 @@ export const InputSection = ({
               if (typeof field.onChange === "function") {
                 try {
                   field.onChange(val, safeInputs, setInputs, safeContextData, extraState, setExtraState);
-                } catch (_err) {
+                } catch {
                   try {
                     field.onChange(val, setInputs, setExtraState);
                   } catch (_e) {
@@ -505,7 +505,7 @@ export const InputSection = ({
               if (typeof field.onChange === "function") {
                 try {
                   field.onChange(val, safeInputs, setInputs, safeContextData, extraState, setExtraState);
-                } catch (_err) {
+                } catch {
                   try {
                     field.onChange(val, setInputs, setExtraState);
                   } catch (_e) {
@@ -573,7 +573,7 @@ export const InputSection = ({
               if (typeof field.onChange === "function") {
                 try {
                   field.onChange(val, setInputs, safeContextData, setExtraState, safeInputs, extraState);
-                } catch (_err) {
+                } catch {
                   // Fallback invocation for (val, setInputs, setExtraState) signature
                   try {
                     field.onChange(val, setInputs, setExtraState);

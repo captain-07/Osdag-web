@@ -109,7 +109,7 @@ const GenericSectionView = ({
       inputs?.[displayConfig.designationKey] ||
       "";
 
-    let desigStr = "";
+    let desigStr;
     if (Array.isArray(resolved)) {
       desigStr = resolved.find((item) => item !== "All") || resolved[0] || "";
     } else {

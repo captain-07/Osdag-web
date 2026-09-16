@@ -72,7 +72,7 @@ const ProjectActionButtons = ({
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-    } catch (_e) {
+    } catch {
       toast.error('Failed to download OSI');
     }
   };

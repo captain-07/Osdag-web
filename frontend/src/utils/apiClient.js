@@ -145,7 +145,7 @@ export function subscribeToTask(taskId) {
         try {
           const urlObj = new URL(apiBase);
           host = urlObj.host;
-        } catch (e) {
+        } catch {
           // ignore parsing error
         }
       }

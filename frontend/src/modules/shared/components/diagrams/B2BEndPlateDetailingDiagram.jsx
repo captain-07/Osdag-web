@@ -1,4 +1,45 @@
 
+const dimColor = '#6b7280';
+
+const arrowPath = (x1, y1, x2, y2, isVertical) => {
+  const sz = 5;
+  if (isVertical) {
+    return `M${x1},${y1} L${x2},${y2}
+            M${x1 - sz / 2},${y1 + sz} L${x1},${y1} L${x1 + sz / 2},${y1 + sz}
+            M${x2 - sz / 2},${y2 - sz} L${x2},${y2} L${x2 + sz / 2},${y2 - sz}`;
+  }
+  return `M${x1},${y1} L${x2},${y2}
+          M${x1 + sz},${y1 - sz / 2} L${x1},${y1} L${x1 + sz},${y1 + sz / 2}
+          M${x2 - sz},${y2 - sz / 2} L${x2},${y2} L${x2 - sz},${y2 + sz / 2}`;
+};
+
+const HorizDim = ({ x1, y, x2, label }) => (
+  <g>
+    <path d={arrowPath(x1, y, x2, y, false)} stroke={dimColor} strokeWidth="1" fill="none" />
+    <line x1={x1} y1={y - 6} x2={x1} y2={y + 6} stroke={dimColor} strokeWidth="1" />
+    <line x1={x2} y1={y - 6} x2={x2} y2={y + 6} stroke={dimColor} strokeWidth="1" />
+    <text x={(x1 + x2) / 2} y={y - 8} textAnchor="middle" fontSize="9" fill={dimColor}>{label}</text>
+  </g>
+);
+
+const VertDim = ({ x, y1, y2, label }) => (
+  <g>
+    <path d={arrowPath(x, y1, x, y2, true)} stroke={dimColor} strokeWidth="1" fill="none" />
+    <line x1={x - 6} y1={y1} x2={x + 6} y2={y1} stroke={dimColor} strokeWidth="1" />
+    <line x1={x - 6} y1={y2} x2={x + 6} y2={y2} stroke={dimColor} strokeWidth="1" />
+    <text
+      x={x - 12}
+      y={(y1 + y2) / 2}
+      textAnchor="middle"
+      fontSize="9"
+      fill={dimColor}
+      transform={`rotate(-90, ${x - 12}, ${(y1 + y2) / 2})`}
+    >
+      {label}
+    </text>
+  </g>
+);
+
 const B2BEndPlateDetailingDiagram = ({
   plateHeight = 400,
   plateThickness = 12,
@@ -46,46 +87,6 @@ const B2BEndPlateDetailingDiagram = ({
   const plateColor    = '#3b82f6';
   const beamColor     = '#f97316';
   const stiffenerColor = '#ef4444';
-  const dimColor      = '#6b7280';
-
-  const arrowPath = (x1, y1, x2, y2, isVertical) => {
-    const sz = 5;
-    if (isVertical) {
-      return `M${x1},${y1} L${x2},${y2}
-              M${x1 - sz / 2},${y1 + sz} L${x1},${y1} L${x1 + sz / 2},${y1 + sz}
-              M${x2 - sz / 2},${y2 - sz} L${x2},${y2} L${x2 + sz / 2},${y2 - sz}`;
-    }
-    return `M${x1},${y1} L${x2},${y2}
-            M${x1 + sz},${y1 - sz / 2} L${x1},${y1} L${x1 + sz},${y1 + sz / 2}
-            M${x2 - sz},${y2 - sz / 2} L${x2},${y2} L${x2 - sz},${y2 + sz / 2}`;
-  };
-
-  const HorizDim = ({ x1, y, x2, label }) => (
-    <g>
-      <path d={arrowPath(x1, y, x2, y, false)} stroke={dimColor} strokeWidth="1" fill="none" />
-      <line x1={x1} y1={y - 6} x2={x1} y2={y + 6} stroke={dimColor} strokeWidth="1" />
-      <line x1={x2} y1={y - 6} x2={x2} y2={y + 6} stroke={dimColor} strokeWidth="1" />
-      <text x={(x1 + x2) / 2} y={y - 8} textAnchor="middle" fontSize="9" fill={dimColor}>{label}</text>
-    </g>
-  );
-
-  const VertDim = ({ x, y1, y2, label }) => (
-    <g>
-      <path d={arrowPath(x, y1, x, y2, true)} stroke={dimColor} strokeWidth="1" fill="none" />
-      <line x1={x - 6} y1={y1} x2={x + 6} y2={y1} stroke={dimColor} strokeWidth="1" />
-      <line x1={x - 6} y1={y2} x2={x + 6} y2={y2} stroke={dimColor} strokeWidth="1" />
-      <text
-        x={x - 12}
-        y={(y1 + y2) / 2}
-        textAnchor="middle"
-        fontSize="9"
-        fill={dimColor}
-        transform={`rotate(-90, ${x - 12}, ${(y1 + y2) / 2})`}
-      >
-        {label}
-      </text>
-    </g>
-  );
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} width="100%" height="100%" style={{ maxHeight: 360 }} xmlns="http://www.w3.org/2000/svg">

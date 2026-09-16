@@ -114,7 +114,7 @@ const Header = ({ setshowSideBar, active }) => {
       } else {
         toast.error(data.error || 'Failed to delete project');
       }
-    } catch (_e) {
+    } catch {
       toast.error('Failed to delete project');
     }
   };
@@ -461,7 +461,7 @@ const Header = ({ setshowSideBar, active }) => {
               if (moduleKey) {
                 sessionStorage.setItem(`prefill:${moduleKey}`, JSON.stringify(data.inputs));
               }
-            } catch (_) { /* ignore */ }
+            } catch { /* ignore */ }
             navigate(route);
           } catch (err) {
             console.error('Failed to import OSI:', err);

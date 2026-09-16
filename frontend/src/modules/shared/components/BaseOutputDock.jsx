@@ -4,6 +4,23 @@ import { getOutputImage } from "../config/outputImageMap";
 import { OUTPUT_LAYOUTS } from "./outputDock/OutputModalLayouts";
 import { useViewport } from "../hooks/useViewport";
 
+// Read-only value box styled like input (transparent bg, grey border).
+// min-h instead of a fixed h so long values wrap and grow the box
+// instead of clipping or spilling outside it.
+const ValueBox = ({ value }) => {
+  const display = value !== undefined && value !== null && value !== '' ? String(value) : ' ';
+  return (
+    <div className="w-[45%]">
+      <div
+        title={display !== ' ' ? display : undefined}
+        className="w-full min-h-9 border border-gray-400 rounded-md px-3 py-1.5 text-sm flex items-center break-words whitespace-normal bg-transparent dark:bg-transparent text-gray-800 dark:text-gray-100"
+      >
+        {display}
+      </div>
+    </div>
+  );
+};
+
 export const BaseOutputDock = React.memo(({
   output,
   outputConfig,
@@ -36,23 +53,6 @@ export const BaseOutputDock = React.memo(({
     if (modalConfig) {
       openModal(modalConfig.type, key);
     }
-  };
-
-  // Read-only value box styled like input (transparent bg, grey border).
-  // min-h instead of a fixed h so long values wrap and grow the box
-  // instead of clipping or spilling outside it.
-  const ValueBox = ({ value }) => {
-    const display = value !== undefined && value !== null && value !== '' ? String(value) : ' ';
-    return (
-      <div className="w-[45%]">
-        <div
-          title={display !== ' ' ? display : undefined}
-          className="w-full min-h-9 border border-gray-400 rounded-md px-3 py-1.5 text-sm flex items-center break-words whitespace-normal bg-transparent dark:bg-transparent text-gray-800 dark:text-gray-100"
-        >
-          {display}
-        </div>
-      </div>
-    );
   };
 
   const getImageForModal = (imageType, selectedOption, basePlateState = {}) =>

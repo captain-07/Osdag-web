@@ -27,6 +27,34 @@ const toNum = (v, fallback = 0) => {
   return Number.isFinite(n) ? n : fallback;
 };
 
+// Dimension label helpers
+const dimColor = "#444";
+const labelStyle = { fontSize: 11, fill: dimColor, fontFamily: "monospace" };
+
+const HorizDim = ({ x1, x2, y, label }) => {
+  const mid = (x1 + x2) / 2;
+  return (
+    <g>
+      <line x1={x1} y1={y} x2={x2} y2={y} stroke={dimColor} strokeWidth="1" markerStart="url(#weld-arr-s)" markerEnd="url(#weld-arr-e)" />
+      <line x1={x1} y1={y - 5} x2={x1} y2={y + 5} stroke={dimColor} strokeWidth="1" />
+      <line x1={x2} y1={y - 5} x2={x2} y2={y + 5} stroke={dimColor} strokeWidth="1" />
+      <text x={mid} y={y - 6} textAnchor="middle" style={labelStyle}>{label}</text>
+    </g>
+  );
+};
+
+const VertDim = ({ x, y1, y2, label }) => {
+  const mid = (y1 + y2) / 2;
+  return (
+    <g>
+      <line x1={x} y1={y1} x2={x} y2={y2} stroke={dimColor} strokeWidth="1" />
+      <line x1={x - 5} y1={y1} x2={x + 5} y2={y1} stroke={dimColor} strokeWidth="1" />
+      <line x1={x - 5} y1={y2} x2={x + 5} y2={y2} stroke={dimColor} strokeWidth="1" />
+      <text x={x + 7} y={mid + 4} textAnchor="start" style={labelStyle}>{label}</text>
+    </g>
+  );
+};
+
 const WeldDiagram = ({
   plateWidth,
   plateHeight,
@@ -70,34 +98,6 @@ const WeldDiagram = ({
   const wg_px = wg * scale;
   const pt_px = pt * scale;
   const halfHeight = (H - wg_px) / 2;
-
-  // Dimension label helpers
-  const dimColor = "#444";
-  const labelStyle = { fontSize: 11, fill: dimColor, fontFamily: "monospace" };
-
-  const HorizDim = ({ x1, x2, y, label }) => {
-    const mid = (x1 + x2) / 2;
-    return (
-      <g>
-        <line x1={x1} y1={y} x2={x2} y2={y} stroke={dimColor} strokeWidth="1" markerStart="url(#weld-arr-s)" markerEnd="url(#weld-arr-e)" />
-        <line x1={x1} y1={y - 5} x2={x1} y2={y + 5} stroke={dimColor} strokeWidth="1" />
-        <line x1={x2} y1={y - 5} x2={x2} y2={y + 5} stroke={dimColor} strokeWidth="1" />
-        <text x={mid} y={y - 6} textAnchor="middle" style={labelStyle}>{label}</text>
-      </g>
-    );
-  };
-
-  const VertDim = ({ x, y1, y2, label }) => {
-    const mid = (y1 + y2) / 2;
-    return (
-      <g>
-        <line x1={x} y1={y1} x2={x} y2={y2} stroke={dimColor} strokeWidth="1" />
-        <line x1={x - 5} y1={y1} x2={x + 5} y2={y1} stroke={dimColor} strokeWidth="1" />
-        <line x1={x - 5} y1={y2} x2={x + 5} y2={y2} stroke={dimColor} strokeWidth="1" />
-        <text x={x + 7} y={mid + 4} textAnchor="start" style={labelStyle}>{label}</text>
-      </g>
-    );
-  };
 
   return (
     <svg

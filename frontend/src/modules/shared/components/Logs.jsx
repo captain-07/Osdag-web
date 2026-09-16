@@ -16,7 +16,7 @@ const Logs = ({ logs }) => {
         <div className="space-y-2">
           {safeLogs.map((log, index) => {
             let logType = 'info';
-            let logMessage = '';
+            let logMessage;
             let logTimestamp = '';
             
             if (typeof log === 'object' && log !== null) {
