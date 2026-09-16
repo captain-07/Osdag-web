@@ -350,7 +350,7 @@ const DesignPrefSections = ({
 
   return (
     <div>
-      <Spin spinning={syncLoading} tip="Syncing preferences…">
+      <Spin spinning={syncLoading} description="Syncing preferences…">
         <div className="bloc-tabs" style={{ marginTop: "10px", opacity: syncLoading ? 0.6 : 1 }}>
           {tabs.map((item) => (
             <button

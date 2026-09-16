@@ -101,8 +101,8 @@ export const EmailVerificationBanner = ({ user, onVerified }) => {
 
   return (
     <Alert
-      message={
-        <Space direction="vertical" size="small" style={{ width: '100%' }}>
+      title={
+        <Space orientation="vertical" size="small" style={{ width: '100%' }}>
           <Space>
             <CloseCircleOutlined style={{ color: '#ff4d4f' }} />
             <strong>Email Not Verified</strong>

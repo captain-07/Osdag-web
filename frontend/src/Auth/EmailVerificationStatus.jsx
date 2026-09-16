@@ -85,7 +85,7 @@ export const EmailVerificationStatus = ({ user, onVerified }) => {
   if (emailVerified) {
     return (
       <Alert
-        message={
+        title={
           <Space>
             <CheckCircleOutlined style={{ color: '#52c41a' }} />
             <span>Email verified successfully!</span>
@@ -100,8 +100,8 @@ export const EmailVerificationStatus = ({ user, onVerified }) => {
 
   return (
     <Alert
-      message={
-        <Space direction="vertical" size="small" style={{ width: '100%' }}>
+      title={
+        <Space orientation="vertical" size="small" style={{ width: '100%' }}>
           <Space>
             <CloseCircleOutlined style={{ color: '#ff4d4f' }} />
             <span>Email not verified</span>
@@ -130,11 +130,10 @@ export const EmailVerificationStatus = ({ user, onVerified }) => {
           {message.text && (
             <div style={{ marginTop: 8 }}>
               <Alert
-                message={message.text}
+                title={message.text}
                 type={message.type}
                 showIcon
-                closable
-                onClose={() => setMessage({ type: '', text: '' })}
+                closable={{ onClose: () => setMessage({ type: '', text: '' }) }}
               />
             </div>
           )}

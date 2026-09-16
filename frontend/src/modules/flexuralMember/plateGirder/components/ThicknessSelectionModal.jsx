@@ -34,7 +34,7 @@ export const ThicknessSelectionModal = ({
           render={(item) => item.label}
           titles={["Available", "Selected"]}
           showSearch
-          listStyle={{ height: 400, width: 240 }}
+          styles={{ section: { height: 400, width: 240 } }}
         />
       </div>
     </Modal>

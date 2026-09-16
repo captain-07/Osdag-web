@@ -10,12 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^6.1.0",
-    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@ant-design/icons": "^6.3.4",
     "@geo-mpy/viewcube-react": "^1.0.2",
     "@react-three/drei": "^10.7.3",
     "@react-three/fiber": "^9.3.0",
-    "antd": "^5.5.0",
+    "antd": "^6.6.4",
     "axios": "^1.4.0",
     "base-64": "^1.0.0",
     "firebase": "^12.6.0",

@@ -501,7 +501,7 @@
   @apply w-full h-[150px] min-h-[150px] flex-shrink-0 opacity-100 translate-y-0 transition-none border border-black border-t-0 overflow-y-auto;
 }
 
-.loading-modal .ant-modal-content {
+.loading-modal .ant-modal-container {
   border: 2px solid #91b014 !important;
   border-radius: 12px !important;
 }
@@ -1176,7 +1176,7 @@
   padding-bottom: 0 !important;
 }
 
-.ant-modal:not(.loading-modal) .ant-modal-content {
+.ant-modal:not(.loading-modal) .ant-modal-container {
   padding: 5px 10px !important;
   background-color: #f1f1f1 !important;
   display: flex !important;

@@ -228,7 +228,7 @@ const GenericSectionView = ({
     const fieldDisabled = isAlwaysDisabled || isInputLocked;
 
     return (
-      <div className="input-cont">
+      <div className="input-cont" key={dbKey || label}>
         <h5>{label}{unit ? `, ${unit}` : ""}</h5>
         {options ? (
           <Select
@@ -298,7 +298,7 @@ const GenericSectionView = ({
                     onDesignationChange?.(val);
                   }}
                   className="input-design-pref"
-                  dropdownMatchSelectWidth={false}
+                  popupMatchSelectWidth={false}
                 >
                   {getDropdownOptions().map((opt) => (
                     <Option key={opt} value={opt}>

@@ -1500,7 +1500,7 @@ ${!isMobile ? (docks.output ? 'pr-0' : 'pr-[40px]') : ''}
             minWidth={isMobile ? undefined : 1200}
             width={isMobile ? '100%' : 1400}
             maxHeight={isMobile ? '100%' : 1200}
-            maskClosable={false}
+            mask={{ closable: false }}
             className="[&_.ant-modal-header]:bg-transparent [&_.ant-modal-close]:right-4"
           >
             <DesignPrefSections

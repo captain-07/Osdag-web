@@ -271,7 +271,7 @@ const LoginPage = () => {
     if (authLoading) {
         return (
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%' }}>
-                <Spin size="large" tip="Verifying session..." />
+                <Spin size="large" description="Verifying session..." />
             </div>
         );
     }
@@ -293,20 +293,18 @@ const LoginPage = () => {
                     <div className="w-full max-w-md space-y-4">
                         {generalError && (
                             <Alert
-                                message={generalError}
+                                title={generalError}
                                 type="error"
                                 showIcon
-                                closable
-                                onClose={() => setGeneralError("")}
+                                closable={{ onClose: () => setGeneralError("") }}
                             />
                         )}
                         {successMessage && (
                             <Alert
-                                message={successMessage}
+                                title={successMessage}
                                 type="success"
                                 showIcon
-                                closable
-                                onClose={() => setSuccessMessage("")}
+                                closable={{ onClose: () => setSuccessMessage("") }}
                             />
                         )}
                         {/* Email Verification Status */}
@@ -552,7 +550,7 @@ const LoginPage = () => {
                     {/* Forgot Password Modal */}
                     <Modal
                         title="Reset Password"
-                        visible={fPasswordModalVisible}
+                        open={fPasswordModalVisible}
                         onCancel={handleFPasswordModalClose}
                         footer={[
                             <Button key="cancel" onClick={handleFPasswordModalClose}>
@@ -568,12 +566,12 @@ const LoginPage = () => {
                                 Send Reset Email
                             </Button>,
                         ]}
-                        maskClosable={false}
+                        mask={{ closable: false }}
                     >
                         <div>
                             {generalError && (
                                 <Alert
-                                    message={generalError}
+                                    title={generalError}
                                     type="error"
                                     showIcon
                                     className='mb-4'
@@ -582,7 +580,7 @@ const LoginPage = () => {
 
                             {successMessage && (
                                 <Alert
-                                    message={successMessage}
+                                    title={successMessage}
                                     type="success"
                                     showIcon
                                     className='mb-4'

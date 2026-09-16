@@ -106,10 +106,12 @@ export const CustomizationModal = ({
               render={(item) => <span className="text-sm truncate block" title={item.label}>{item.label}</span>}
               titles={["Available", "Selected"]}
               showSearch
-              listStyle={{ 
-                height: 350, 
-                width: isMobile ? 140 : 240,
-                minWidth: isMobile ? 130 : 240
+              styles={{
+                section: {
+                  height: 350,
+                  width: isMobile ? 140 : 240,
+                  minWidth: isMobile ? 130 : 240
+                }
               }}
             />
           </div>

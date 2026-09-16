@@ -129,7 +129,7 @@ export const DesignStatusModal = ({ status, isMobile, onClose }) => {
         open={isVisible}
         footer={null}
         closable={status.step === DESIGN_STATUS.ERROR}
-        maskClosable={status.step === DESIGN_STATUS.ERROR}
+        mask={{ closable: status.step === DESIGN_STATUS.ERROR }}
         centered
         width={isMobile ? '90%' : 420}
         className="loading-modal"
