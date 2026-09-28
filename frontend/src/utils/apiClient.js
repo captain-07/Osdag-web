@@ -1,6 +1,5 @@
 import { apiBase } from "../api";
 import { auth } from "../Auth/firebase";
-import { signOut } from "firebase/auth";
 
 const getAccessToken = async (forceRefresh = false) => {
   const user = auth.currentUser;
@@ -37,30 +36,21 @@ const createApiClient = (baseUrl) => {
     if (response.status === 401 && !isRetry) {
       const user = auth.currentUser;
       if (user) {
-        try {
-          console.warn("401 hit. Force-refreshing token and retrying...");
-          const freshToken = await getAccessToken(true);
-          
-          if (!freshToken) {
-            throw new Error("Unable to obtain a fresh session token.");
-          }
+        console.warn("401 hit. Force-refreshing token and retrying...");
+        const freshToken = await getAccessToken(true);
 
-          const retryHeaders = {
-            ...headers,
-            Authorization: `Bearer ${freshToken}`,
-          };
-          // Recursive call with isRetry=true to preserve error checking and exceptions
-          return await client(url, {
-            ...options,
-            headers: retryHeaders,
-          }, true);
-        } catch (refreshError) {
-          await signOut(auth);
-          window.location.href = '/';
-          throw refreshError;
+        if (!freshToken) {
+          throw new Error("Unable to obtain a fresh session token.");
         }
-      } else {
-        window.location.href = '/';
+
+        const retryHeaders = {
+          ...headers,
+          Authorization: `Bearer ${freshToken}`,
+        };
+        return await client(url, {
+          ...options,
+          headers: retryHeaders,
+        }, true);
       }
     }
 
