@@ -142,7 +142,12 @@ This single command:
 
 Once the services are up and running, open a new terminal window and run:
 ```cmd
-docker compose exec backend bash -c "source /opt/miniconda/etc/profile.d/conda.sh && conda activate myenv && python populate_database.py"
+docker compose exec backend /opt/conda/envs/osdag_env/bin/python populate_database.py
+```
+
+If you are using **Git Bash**, prefix the command with `MSYS_NO_PATHCONV=1` so Git Bash does not rewrite the container path:
+```bash
+MSYS_NO_PATHCONV=1 docker compose exec backend /opt/conda/envs/osdag_env/bin/python populate_database.py
 ```
 
 ### A.9 — Useful Docker Commands
@@ -173,10 +178,15 @@ docker compose exec backend bash
 ### A.10 — Verify Celery Is Working
 
 ```cmd
-docker compose exec backend bash -c "source /opt/miniconda/etc/profile.d/conda.sh && conda activate myenv && python -c \"from apps.core.tasks import healthcheck_task; print(healthcheck_task.delay().id)\""
+docker compose exec backend /opt/conda/envs/osdag_env/bin/python -c "from apps.core.tasks import healthcheck_task; print(healthcheck_task.delay().id)"
 
 # Check the celery_worker container logs to verify the task was processed:
 docker compose logs --tail=50 celery_worker
+```
+
+In Git Bash, use:
+```bash
+MSYS_NO_PATHCONV=1 docker compose exec backend /opt/conda/envs/osdag_env/bin/python -c "from apps.core.tasks import healthcheck_task; print(healthcheck_task.delay().id)"
 ```
 
 ### A.11 — Production Deployment

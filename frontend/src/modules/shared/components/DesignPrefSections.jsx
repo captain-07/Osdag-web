@@ -1,5 +1,6 @@
 import { useRef, useState, useContext, useEffect, useCallback } from "react";
 import { ModuleContext } from "../../../context/ModuleState";
+import { useAuth } from "../../../context/AuthContext";
 import GenericSectionView from "./GenericSectionView";
 import { BEAM_DISPLAY_CONFIG, COLUMN_DISPLAY_CONFIG, ANGLE_DISPLAY_CONFIG } from "../config/sectionDisplayConfig";
 import ConnectorSectionModal from "./ConnectorSectionModal";
@@ -30,9 +31,10 @@ const DesignPrefSections = ({
   confirmationModal,
   isInputLocked,
   moduleMaterialList,
-  isGuest = false,
   onRefetchModuleOptions,
 }) => {
+  const { user, loading: authLoading } = useAuth();
+  const isGuest = authLoading || !user;
   const designPrefConfig = getDesignPrefConfig(module);
   const tabs = getDesignPrefTabs(module);
   const ctx = useContext(ModuleContext);

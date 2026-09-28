@@ -32,6 +32,11 @@ export default function SectionTabToolbar({
 
   const canMutateSections = !isGuest && !isInputLocked;
   const canClearLocal = !isInputLocked;
+  const mutationDisabledReason = isGuest
+    ? "Sign in to add or import custom sections."
+    : isInputLocked
+      ? "Unlock the input dock to add or import custom sections."
+      : undefined;
 
   const runTemplateDownload = useCallback(async () => {
     setBusy("template");
@@ -49,8 +54,13 @@ export default function SectionTabToolbar({
   const handleAddClick = useCallback(async () => {
     if (onAddSection) {
       setBusy("add");
-      await onAddSection();
-      setBusy(null);
+      try {
+        await onAddSection();
+      } catch (error) {
+        message.error(error?.message || "Failed to add section.");
+      } finally {
+        setBusy(null);
+      }
     }
   }, [onAddSection]);
 
@@ -59,6 +69,8 @@ export default function SectionTabToolbar({
       <Button
         style={{ minWidth: "140px" }}
         disabled={!canMutateSections || Boolean(busy)}
+        title={mutationDisabledReason}
+        loading={busy === "add"}
         onClick={handleAddClick}
       >
         Add
@@ -81,6 +93,7 @@ export default function SectionTabToolbar({
           <Button
             style={{ minWidth: "140px" }}
             disabled={!canMutateSections || Boolean(busy) || importBusy}
+            title={mutationDisabledReason}
             loading={importBusy}
             onClick={trigger}
           >

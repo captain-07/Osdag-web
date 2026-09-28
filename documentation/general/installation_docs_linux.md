@@ -175,7 +175,7 @@ This single command:
 After the services are running, populate the structural section database:
 
 ```bash
-docker compose exec backend bash -c "source /opt/miniconda/etc/profile.d/conda.sh && conda activate myenv && python populate_database.py"
+docker compose exec backend /opt/conda/envs/osdag_env/bin/python populate_database.py
 ```
 
 ### A.9 — Useful Docker Commands
@@ -209,10 +209,8 @@ docker compose exec backend bash
 ### A.10 — Verify Celery Is Working
 
 ```bash
-docker compose exec backend bash -c \
-  "source /opt/miniconda/etc/profile.d/conda.sh && \
-   conda activate myenv && \
-   python -c \"from apps.core.tasks import healthcheck_task; print(healthcheck_task.delay().id)\""
+docker compose exec backend /opt/conda/envs/osdag_env/bin/python -c \
+  "from apps.core.tasks import healthcheck_task; print(healthcheck_task.delay().id)"
 
 # Then check the worker picked it up
 docker compose logs --tail=50 celery_worker
