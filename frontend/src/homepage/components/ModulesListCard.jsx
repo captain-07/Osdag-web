@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { getModuleRoute } from "../../constants/moduleRoutes";
 
-const ModulesListCard = ({ items }) => {
+const ModulesListCard = ({ items = [], loading = false }) => {
   const navigate = useNavigate();
 
   const handleModuleClick = (item) => {
@@ -17,6 +17,24 @@ const ModulesListCard = ({ items }) => {
       </svg>
     </div>
   );
+
+  if (loading) {
+    return (
+      <div className="text-center p-10">
+        <div className="w-10 h-10 border-4 border-osdag-green border-t-transparent rounded-full animate-spin mx-auto" />
+        <div className="mt-4 text-gray-500 dark:text-white">Loading recent modules...</div>
+      </div>
+    );
+  }
+
+  if (items.length === 0) {
+    return (
+      <div className="text-center p-10 dark:text-white">
+        <p className="text-gray-500 dark:text-gray-400 mb-2">No recent modules</p>
+        <p className="text-gray-600 dark:text-gray-500 text-sm">Start designing to see your modules here</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -48,5 +66,4 @@ const ModulesListCard = ({ items }) => {
 };
 
 export default ModulesListCard;
-
 

@@ -3,6 +3,7 @@ import { Modal, Row, Col, Input, Button, Upload, message } from 'antd';
 import { ReportCustomizationModal } from './ReportCustomizationModal';
 import { useEngineeringService } from '../hooks/useEngineeringService';
 import { apiBase } from '../../../api';
+import { unwrapReportInputs } from '../utils/reportInputs';
 
 export const DesignReportModal = ({
   isOpen,
@@ -136,14 +137,7 @@ Group/TeamName: ${designReportInputs.groupTeamName}`;
           console.warn("[DesignReportModal] logo upload failed", e);
         }
       }
-      // Unwrap inputValues if passed as { dock: {...}, pref: {...} }
-      let effectiveInputValues = inputValues || {};
-      if (effectiveInputValues.dock && typeof effectiveInputValues.dock === 'object') {
-        effectiveInputValues = {
-          ...effectiveInputValues.dock,
-          ...(effectiveInputValues.pref || {})
-        };
-      }
+      const effectiveInputValues = unwrapReportInputs(inputValues);
 
       // Transform input values using the same logic as design calculation
       let transformedInputValues = effectiveInputValues;
@@ -344,6 +338,7 @@ Group/TeamName: ${designReportInputs.groupTeamName}`;
       setShowCustomization(false);
       onOk && onOk();
     } catch (error) {
+      if (error?.name === 'AbortError') return;
       console.error('[DesignReportModal] handleSavePDF:error', error);
       message.error("Error saving PDF. Please try again.");
     }

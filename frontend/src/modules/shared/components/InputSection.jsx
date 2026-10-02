@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 import Select, { components } from 'react-select';
 import { Modal } from 'antd';
 import { getOptionsForField, getListForInputKey } from '../utils/fieldOptionUtils';
@@ -41,6 +41,8 @@ const CustomOption = (props) => {
   );
 };
 
+const EMPTY_LIST = [];
+
 export const InputSection = ({
   section,
   inputs,
@@ -63,14 +65,14 @@ export const InputSection = ({
   const [customMaterialType, setCustomMaterialType] = useState("connector");
   // Field whose optimization bounds modal is open (for optimized_number fields)
   const [boundsModalField, setBoundsModalField] = useState(null);
-  const { materialList: contextMaterialList = [] } = useContext(ModuleContext);
-  const safeContextData = {
+  const { materialList: contextMaterialList = EMPTY_LIST } = useContext(ModuleContext);
+  const safeContextData = useMemo(() => ({
     ...(contextData || {}),
     materialList:
       contextMaterialList.length > 0
         ? contextMaterialList
         : contextData?.materialList || [],
-  };
+  }), [contextData, contextMaterialList]);
 
   // Styling object for react-select to fix z-index and other container issues
   const customSelectStyles = {

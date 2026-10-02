@@ -15,6 +15,13 @@ const toolbarRowStyle = {
   borderTop: "1px solid #ccc",
 };
 
+const guestNoticeStyle = {
+  padding: "6px 5px 0",
+  fontSize: "12px",
+  textAlign: "center",
+  color: "#b45309",
+};
+
 /**
  * Section tools: template (guest OK), export/import/add (signed-in + unlocked), clear (local prefs).
  */
@@ -65,6 +72,12 @@ export default function SectionTabToolbar({
   }, [onAddSection]);
 
   return (
+    <>
+    {isGuest && (
+      <div style={guestNoticeStyle}>
+        Sign in to add new designations or import sections.
+      </div>
+    )}
     <div style={toolbarRowStyle}>
       <Button
         style={{ minWidth: "140px" }}
@@ -110,7 +123,8 @@ export default function SectionTabToolbar({
       >
         Download xlsx file
       </Button>
-      
+
     </div>
+    </>
   );
 }

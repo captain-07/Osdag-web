@@ -31,6 +31,7 @@ const DesignPrefSections = ({
   confirmationModal,
   isInputLocked,
   moduleMaterialList,
+  moduleLists,
   onRefetchModuleOptions,
 }) => {
   const { user, loading: authLoading } = useAuth();
@@ -348,8 +349,6 @@ const DesignPrefSections = ({
     return defaultTable;
   };
 
-  const isConnectionModule = !module.includes("Design") && module !== "Axially Loaded Column";
-
   return (
     <div>
       <Spin spinning={syncLoading} description="Syncing preferences…">
@@ -388,6 +387,7 @@ const DesignPrefSections = ({
               setDesignPrefInputs={setDesignPrefInputs}
               isInputLocked={isInputLocked}
               materialList={materialListForModals}
+              moduleLists={moduleLists}
               isGuest={isGuest}
               onRefetchModuleOptions={onRefetchModuleOptions}
               onClearSection={() =>
@@ -397,7 +397,6 @@ const DesignPrefSections = ({
                 }))
               }
               onDesignationChange={(val) => handleDesignationChange(0, val)}
-              hideDropdown={isConnectionModule}
               {...modalCommon}
             />
           )}
@@ -413,6 +412,7 @@ const DesignPrefSections = ({
               setDesignPrefInputs={setDesignPrefInputs}
               isInputLocked={isInputLocked}
               materialList={materialListForModals}
+              moduleLists={moduleLists}
               isGuest={isGuest}
               onRefetchModuleOptions={onRefetchModuleOptions}
               onClearSection={() =>
@@ -422,7 +422,6 @@ const DesignPrefSections = ({
                 }))
               }
               onDesignationChange={(val) => handleDesignationChange(1, val)}
-              hideDropdown={isConnectionModule}
               {...modalCommon}
             />
           )}
@@ -438,6 +437,7 @@ const DesignPrefSections = ({
               setDesignPrefInputs={setDesignPrefInputs}
               isInputLocked={isInputLocked}
               materialList={materialListForModals}
+              moduleLists={moduleLists}
               isGuest={isGuest}
               onRefetchModuleOptions={onRefetchModuleOptions}
               onClearSection={() =>
@@ -480,6 +480,7 @@ const DesignPrefSections = ({
               setDesignPrefInputs={setDesignPrefInputs}
               isInputLocked={isInputLocked}
               materialList={materialListForModals}
+              moduleLists={moduleLists}
               isGuest={isGuest}
               onRefetchModuleOptions={onRefetchModuleOptions}
               onDesignationChange={(val) => handleDesignationChange(4, val)}
@@ -499,6 +500,7 @@ const DesignPrefSections = ({
               setDesignPrefInputs={setDesignPrefInputs}
               isInputLocked={isInputLocked}
               materialList={materialListForModals}
+              moduleLists={moduleLists}
               isGuest={isGuest}
               onRefetchModuleOptions={onRefetchModuleOptions}
               onClearSection={() =>
