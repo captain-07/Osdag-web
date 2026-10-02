@@ -150,6 +150,7 @@ export const EngineeringModals = () => {
             setConfirmationModal={setConfirmationModal}
             isInputLocked={isInputLocked}
             moduleMaterialList={materialList}
+            moduleLists={contextData}
             isGuest={isGuestUser()}
             onRefetchModuleOptions={refetchModuleOptions}
           />

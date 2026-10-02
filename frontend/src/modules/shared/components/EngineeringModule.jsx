@@ -1514,6 +1514,7 @@ ${!isMobile ? (docks.output ? 'pr-0' : 'pr-[40px]') : ''}
               setConfirmationModal={setConfirmationModal}
               isInputLocked={isInputLocked}
               moduleMaterialList={materialList}
+              moduleLists={contextData}
               isGuest={isGuestUser()}
               onRefetchModuleOptions={refetchModuleOptions}
             />

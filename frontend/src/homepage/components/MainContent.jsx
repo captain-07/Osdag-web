@@ -82,7 +82,7 @@ const MainContent = () => {
           {isGuest ? null : (
             <div className="flex-1">
               <DashboardSectionCard title="Recently used Modules">
-                <ModulesListCard items={recentModules} />
+                <ModulesListCard items={recentModules} loading={loading} />
               </DashboardSectionCard>
             </div>
           )}

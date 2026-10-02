@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Modal, Button, Tree, Spin, message } from 'antd';
 
-const { TreeNode } = Tree;
-
 export const ReportCustomizationModal = ({
   isOpen,
   onCancel,
@@ -44,27 +42,15 @@ export const ReportCustomizationModal = ({
     setAutoExpandParent(false);
   };
 
-  const renderTreeNodes = (sections) => {
-    return Object.keys(sections).map(section => {
-      const subsections = sections[section] || [];
-      const children = subsections.map(subsection => (
-        <TreeNode
-          title={subsection}
-          key={`${section}/${subsection}`}
-          isLeaf
-        />
-      ));
-
-      return (
-        <TreeNode
-          title={section}
-          key={section}
-        >
-          {children}
-        </TreeNode>
-      );
-    });
-  };
+  const treeData = Object.keys(sections).map((section) => ({
+    title: section,
+    key: section,
+    children: (sections[section] || []).map((subsection) => ({
+      title: subsection,
+      key: `${section}/${subsection}`,
+      isLeaf: true,
+    })),
+  }));
 
   const handleSelectAll = () => {
     const allKeys = [];
@@ -160,9 +146,8 @@ export const ReportCustomizationModal = ({
             onCheck={onCheck}
             checkedKeys={checkedKeys}
             className="max-h-[300px] overflow-y-auto bg-white"
-          >
-            {renderTreeNodes(sections)}
-          </Tree>
+            treeData={treeData}
+          />
         </div>
       )}
 

@@ -35,7 +35,10 @@ const resolveModelDataForFormat = (cadModelPaths, format) => {
     const realKey = lowerMap[candidate];
     if (!realKey) continue;
     const value = cadModelPaths[realKey];
-    if (typeof value === "string") return value;
+    if (typeof value === "string") {
+      if (candidate !== "model" || fmt === "stl") return value;
+      continue;
+    }
     if (value && typeof value === "object") {
       const nestedKey = Object.keys(value).find((k) => k.toLowerCase() === fmt);
       if (nestedKey && typeof value[nestedKey] === "string") return value[nestedKey];

@@ -90,6 +90,7 @@ const createApiClient = (baseUrl) => {
       }
       
       const errorObj = new Error(errorMessage);
+      errorObj.data = errorData;
       if (errorData.pending_deletion) {
         errorObj.pending_deletion = true;
         errorObj.uid = errorData.uid;

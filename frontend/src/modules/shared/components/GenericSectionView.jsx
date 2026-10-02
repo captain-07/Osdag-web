@@ -9,6 +9,9 @@ import { addCustomSection } from "../../../datasources/sectionsDataSource";
 
 const { Option } = Select;
 
+const EMPTY_LIST = [];
+const EMPTY_LISTS = {};
+
 const readOnlyFontStyle = {
   color: "rgb(0 0 0 / 67%)",
   fontSize: "12px",
@@ -26,6 +29,7 @@ const GenericSectionView = ({
   isInputLocked,
   inputs,             // Base inputs from parent
   materialList = [],
+  moduleLists = EMPTY_LISTS,
   isGuest,
   onRefetchModuleOptions,
   suppressInitialMaterialDispatch = false,
@@ -34,20 +38,23 @@ const GenericSectionView = ({
   displayConfig,      // Configuration for fields and image
   onClearSection,     // Callback to clear parent state if needed
   onDesignationChange,// Callback when designation changes
-  hideDropdown        // If true, suppress dropdown (e.g. for primary members)
 }) => {
   const {
     manageDesignPreferences,
-    beamList = [],
-    columnList = [],
-    angleList = [],
-    channelList = [],
-    sectionDesignation = [],
     [sectionType === 'supporting' ? 'supporting_material_details' : 'supported_material_details']: materialDetails,
   } = useContext(ModuleContext);
+  const {
+    beamList = EMPTY_LIST,
+    columnList = EMPTY_LIST,
+    angleList = EMPTY_LIST,
+    channelList = EMPTY_LIST,
+    sectionDesignation = EMPTY_LIST,
+  } = moduleLists;
   const [showModal, setShowModal] = useState(false);
   const [editableData, setEditableData] = useState({});
   const [designationStr, setDesignationStr] = useState("");
+  const [newDesignation, setNewDesignation] = useState("");
+  const [detailsFromDb, setDetailsFromDb] = useState(true);
   const [lastPropDesignation, setLastPropDesignation] = useState("");
 
   const getDropdownOptions = useCallback(() => {
@@ -62,36 +69,12 @@ const GenericSectionView = ({
         ? channelList
         : [];
 
-    let dockSelections = [];
-    if (sectionTableName === "Beams") {
-      dockSelections = inputs?.section_designation || inputs?.beam_section || inputs?.primary_beam || inputs?.secondary_beam;
-    } else if (sectionTableName === "Columns") {
-      dockSelections = inputs?.section_designation || inputs?.column_section || inputs?.member_designation;
-    } else if (sectionTableName === "Angles") {
-      dockSelections = inputs?.section_designation || inputs?.cleat_section || inputs?.seated_section || inputs?.Designation;
-    } else if (sectionTableName === "Channels") {
-      dockSelections = inputs?.section_designation || inputs?.section_designation;
-    }
-
-    let selectionsArr = [];
-    if (Array.isArray(dockSelections)) {
-      selectionsArr = dockSelections;
-    } else if (dockSelections) {
-      selectionsArr = [dockSelections];
-    }
-
-    const filteredSelections = selectionsArr.filter(
-      (item) => item && item !== "All" && item !== "Select Section"
-    );
-
-    const finalOptionsList = filteredSelections.length > 0 ? filteredSelections : fullList;
-
-    return finalOptionsList.map((item) =>
+    return fullList.map((item) =>
       typeof item === "object"
         ? item.Designation || item.value || item.Grade || String(item)
         : String(item)
     );
-  }, [sectionTableName, beamList, columnList, angleList, channelList, inputs]);
+  }, [sectionTableName, beamList, columnList, angleList, channelList]);
 
   // Safety check for sectionData
   const safeSectionData = useMemo(() => sectionData || {}, [sectionData]);
@@ -116,7 +99,7 @@ const GenericSectionView = ({
       desigStr = String(resolved || "");
     }
 
-    if (!desigStr && !hideDropdown) {
+    if (!desigStr) {
       const opts = getDropdownOptions();
       if (opts.length > 0) {
         desigStr = opts[0];
@@ -128,7 +111,7 @@ const GenericSectionView = ({
       setDesignationStr(desigStr);
       setLastPropDesignation(desigStr);
     }
-  }, [inputs, displayConfig.designationKey, beamList, columnList, angleList, channelList, hideDropdown, getDropdownOptions, onDesignationChange, lastPropDesignation]);
+  }, [inputs, displayConfig.designationKey, beamList, columnList, angleList, channelList, getDropdownOptions, onDesignationChange, lastPropDesignation]);
 
 
   const materialKey = sectionType === 'supporting' ? 'supporting_material' : 'supported_material';
@@ -166,6 +149,8 @@ const GenericSectionView = ({
 
   const handleClearSectionTab = () => {
     onClearSection?.();
+    setNewDesignation("");
+    setDetailsFromDb(false);
     setDesignPrefInputs((prev) => ({
       ...prev,
       [materialKey]:
@@ -177,7 +162,8 @@ const GenericSectionView = ({
   };
 
   const handleAddSection = async () => {
-    if (!designationStr) {
+    const designationToAdd = newDesignation.trim();
+    if (!designationToAdd) {
       alert("Please fill all the missing parameters!");
       return;
     }
@@ -194,10 +180,10 @@ const GenericSectionView = ({
       }
     }
 
-    const payload = { ...editableData, Designation: designationStr };
+    const payload = { ...editableData, Designation: designationToAdd };
     try {
       await addCustomSection(sectionTableName, payload);
-      notifyCustomSectionAdded({ table: sectionTableName, designation: designationStr });
+      notifyCustomSectionAdded({ table: sectionTableName, designation: designationToAdd });
       await onRefetchModuleOptions?.();
       const listMap = {
         Columns: [...columnList, ...sectionDesignation],
@@ -206,8 +192,12 @@ const GenericSectionView = ({
         Channels: channelList,
       };
       const visible = (listMap[sectionTableName] || []).some(
-        (item) => String(item) === String(designationStr)
+        (item) => String(item) === String(designationToAdd)
       );
+      setDesignationStr(designationToAdd);
+      setNewDesignation("");
+      setDetailsFromDb(true);
+      onDesignationChange?.(designationToAdd);
       if (visible) {
         alert("Data is added successfully to the database!");
       } else {
@@ -279,22 +269,13 @@ const GenericSectionView = ({
                 value={designationStr}
                 disabled={true}
               />
-            ) : hideDropdown ? (
-              <Input
-                type="text"
-                value={designationStr}
-                onChange={(e) => {
-                  setDesignationStr(e.target.value);
-                  onDesignationChange?.(e.target.value);
-                }}
-                className="input-design-pref text-black"
-              />
             ) : (
               <div className="flex flex-col gap-[5px]">
                 <Select
                   value={designationStr}
                   onChange={(val) => {
                     setDesignationStr(val);
+                    setDetailsFromDb(true);
                     onDesignationChange?.(val);
                   }}
                   className="input-design-pref"
@@ -308,9 +289,18 @@ const GenericSectionView = ({
                 </Select>
                 <Input
                   type="text"
-                  placeholder="Custom name..."
-                  value={designationStr}
-                  onChange={(e) => setDesignationStr(e.target.value)}
+                  placeholder={isGuest ? "Sign in to add a new designation" : "New designation..."}
+                  disabled={isGuest}
+                  value={newDesignation}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (detailsFromDb && value !== "") {
+                      onClearSection?.();
+                      setEditableData({ Source: "Custom" });
+                      setDetailsFromDb(false);
+                    }
+                    setNewDesignation(value);
+                  }}
                   className="input-design-pref text-black"
                 />
               </div>

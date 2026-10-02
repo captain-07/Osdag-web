@@ -22,10 +22,10 @@ from apps.sections.validation import (
     assert_allowed_catalog_table,
     assert_allowed_table,
     can_insert_custom_section,
+    cell_problem,
     get_catalog_model_for_table,
     get_db_header,
     headers_match_table,
-    import_db_validation,
     row_dict_to_create_kwargs,
 )
 
@@ -264,7 +264,8 @@ class SectionImportView(APIView):
             Ser = get_user_section_serializer(table)
             inserted = 0
             inserted_designations: List[str] = []
-            ignored: List[str] = []
+            ignored: List[Any] = []
+            inserted_rows: Dict[str, int] = {}
             rejected: List[Any] = []
 
             for row_idx, row in enumerate(
@@ -294,27 +295,38 @@ class SectionImportView(APIView):
                     continue
                 raw["Designation"] = des_str
 
-                row_ok = True
+                problems = []
                 for key, val in raw.items():
-                    if not import_db_validation(table, key, val):
-                        rejected.append(
+                    issue = cell_problem(table, key, val)
+                    if issue:
+                        problems.append(
                             {
-                                "row": row_idx,
-                                "designation": des_str,
-                                "reason": "cell_validation_failed",
                                 "key": key,
-                                "value": val,
+                                "value": val
+                                if isinstance(val, (str, int, float)) or val is None
+                                else str(val),
+                                "issue": issue,
                             }
                         )
-                        row_ok = False
-                        break
-                if not row_ok:
+                if problems:
+                    rejected.append(
+                        {
+                            "row": row_idx,
+                            "designation": des_str,
+                            "reason": "cell_validation_failed",
+                            "problems": problems,
+                        }
+                    )
                     continue
 
                 ok, code = can_insert_custom_section(table, des_str, request.user)
                 if not ok:
                     if code in ("catalog_duplicate", "user_duplicate"):
-                        ignored.append(des_str)
+                        entry = {"row": row_idx, "designation": des_str, "reason": code}
+                        if code == "user_duplicate" and des_str in inserted_rows:
+                            entry["reason"] = "repeated_in_file"
+                            entry["first_row"] = inserted_rows[des_str]
+                        ignored.append(entry)
                     else:
                         rejected.append(
                             {
@@ -332,6 +344,7 @@ class SectionImportView(APIView):
                     ser.save()
                     inserted += 1
                     inserted_designations.append(des_str)
+                    inserted_rows[des_str] = row_idx
                 except ValidationError as exc:
                     rejected.append(
                         {

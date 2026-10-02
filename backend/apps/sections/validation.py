@@ -172,6 +172,24 @@ def import_db_validation(table: str, key: str, value: Any) -> bool:
     return False
 
 
+def cell_problem(table: str, key: str, value: Any) -> Optional[str]:
+    """
+    Return None if the cell is acceptable, else one of `empty`, `text_number`
+    (numeric text such as "12.5") or `not_a_number`. Agrees with `import_db_validation`.
+    """
+    if import_db_validation(table, key, value):
+        return None
+    if value is None or (isinstance(value, str) and not value.strip()):
+        return "empty"
+    if isinstance(value, str):
+        try:
+            float(value.strip())
+        except ValueError:
+            return "not_a_number"
+        return "text_number"
+    return "not_a_number"
+
+
 def row_dict_to_create_kwargs(table: str, row: Dict[str, Any]) -> Dict[str, Any]:
     """
     Keep only catalog field keys for `UserCustom*` create/update (no user, no PK,
